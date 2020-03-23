@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -67,7 +68,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 	            return entity;
 	        }
 	}
-	
+	@Override
+	@CacheEvict(cacheNames = "Emp-Cache",allEntries=true)
+	@CachePut(cacheNames = "Emp-Cache",key="{#place, #percentage}")
+	public List<Employee> updateUserByPlaceNSalary(String place, double percentage) {
+		List<Employee> allEmpsByPlace = repository.findByPlace(place);
+		
+		if(allEmpsByPlace!=null) {
+			allEmpsByPlace = allEmpsByPlace.stream().map(e -> e.salaryIncreamentBy(percentage))
+					.collect(Collectors.toList());
+
+			allEmpsByPlace.stream().forEach(e -> repository.save(e));
+		}
+		return allEmpsByPlace;
+	}
 	
 	@Cacheable(cacheNames = "Emp-Cache",key = "#place")
 	public List<Employee> getAllEmployeesByPlace(String place) {
@@ -135,5 +149,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			repository.saveAll(empList);
 		}
 	}
+
+	
 
 }

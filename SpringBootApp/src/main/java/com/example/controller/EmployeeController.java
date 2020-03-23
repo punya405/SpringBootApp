@@ -67,16 +67,13 @@ public class EmployeeController {
 			@PathVariable("percentage") double percentage) {
 
 		logger.info("inside updateUserByPlaceNSalary ");
-		List<Employee> allEmpsByPlace = service.getAllEmployeesByPlace(place);
+		List<Employee> updatedEmpByPlaceNSalary = service.updateUserByPlaceNSalary(place, percentage);
 
-		if (allEmpsByPlace.size() == 0) {
+		if (updatedEmpByPlaceNSalary==null) {
 					new ResourceNotFoundException("Unable to upate. employee with place " + place + " not found.");
 		}
-		allEmpsByPlace = allEmpsByPlace.stream().map(e -> e.salaryIncreamentBy(percentage))
-				.collect(Collectors.toList());
-
-		allEmpsByPlace.stream().forEach(e -> service.createUpdateEmployee(e));
-		return new ResponseEntity<>(allEmpsByPlace, HttpStatus.OK);
+		
+		return new ResponseEntity<>(updatedEmpByPlaceNSalary, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Get list of Employee by a place name ", response = Iterable.class, tags = "getEmployeeByPlace")
