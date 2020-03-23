@@ -47,7 +47,6 @@ public class EmployeeController {
 		return new ResponseEntity<List<Employee>>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ApiOperation(value = "update the given employee details ", response = Employee.class, tags = "updateEmployee")
 	@PutMapping(value = "/update/employeeDetails")
 	public ResponseEntity<Employee> updateEmployee(@RequestBody Employee emp) {
@@ -56,15 +55,12 @@ public class EmployeeController {
 		Employee updatedEmp = service.createUpdateEmployee(emp);
 
 		if (updatedEmp == null) {
-			return new ResponseEntity(
 					new ResourceNotFoundException(
-							"Unable to update. employee with id " + emp.getEmpId() + " not found."),
-					HttpStatus.NOT_FOUND);
+							"Unable to update. employee with id " + emp.getEmpId() + " not found.");
 		}
 		return new ResponseEntity<>(updatedEmp, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ApiOperation(value = "update each record by increasing their salary by percentage(percentage path param) for employees that have place matching with place ", response = Iterable.class, tags = "updateUserByPlaceNSalary")
 	@PutMapping(value = "/employee/place/{place}/salary/{percentage}")
 	public ResponseEntity<List<Employee>> updateUserByPlaceNSalary(@PathVariable("place") String place,
@@ -74,9 +70,7 @@ public class EmployeeController {
 		List<Employee> allEmpsByPlace = service.getAllEmployeesByPlace(place);
 
 		if (allEmpsByPlace.size() == 0) {
-			return new ResponseEntity(
-					new ResourceNotFoundException("Unable to upate. employee with place " + place + " not found."),
-					HttpStatus.NOT_FOUND);
+					new ResourceNotFoundException("Unable to upate. employee with place " + place + " not found.");
 		}
 		allEmpsByPlace = allEmpsByPlace.stream().map(e -> e.salaryIncreamentBy(percentage))
 				.collect(Collectors.toList());
@@ -85,7 +79,6 @@ public class EmployeeController {
 		return new ResponseEntity<>(allEmpsByPlace, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ApiOperation(value = "Get list of Employee by a place name ", response = Iterable.class, tags = "getEmployeeByPlace")
 	@GetMapping("/place/{place}")
 	public ResponseEntity<List<Employee>> getEmployeeByPlace(@PathVariable("place") String place) {
@@ -93,13 +86,11 @@ public class EmployeeController {
 		logger.info("inside getEmployeeByPlace ");
 		List<Employee> allEmpsByPlace = service.getAllEmployeesByPlace(place);
 		if (allEmpsByPlace == null) {
-			return new ResponseEntity(new ResourceNotFoundException("Employee with place " + place + " not found"),
-					HttpStatus.NOT_FOUND);
+			new ResourceNotFoundException("Employee with place " + place + " not found");
 		}
 		return new ResponseEntity<>(allEmpsByPlace, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ApiOperation(value = "get the nested list of all supervisees of a given supervisor  ", response = Iterable.class, tags = "getSupervisee")
 	@GetMapping("/supervisee/{supervisee}")
 	public ResponseEntity<List<String>> getSupervisee(@PathVariable("supervisee") String supervisee) {
@@ -107,14 +98,11 @@ public class EmployeeController {
 		logger.info("inside getSupervisee ");
 		List<String> allEmpsByPlace = service.getSupervisee(supervisee);
 		if (allEmpsByPlace == null) {
-			return new ResponseEntity(
-					new ResourceNotFoundException("Employee with supervisee " + supervisee + " not found"),
-					HttpStatus.NOT_FOUND);
+					new ResourceNotFoundException("Employee with supervisee " + supervisee + " not found");
 		}
 		return new ResponseEntity<>(allEmpsByPlace, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ApiOperation(value = "get total salary of given BU  ", response = BigDecimal.class, tags = "getTotalSalaryByBU")
 	@GetMapping("/tSal/BU/{BU}")
 	public ResponseEntity<BigDecimal> getTotalSalaryByBU(@PathVariable("BU") String BU) {
@@ -122,13 +110,11 @@ public class EmployeeController {
 		logger.info("inside getTotalSalaryByBU ");
 		BigDecimal tSal = service.findTotalSalaryByBU(BU);
 		if (tSal == null) {
-			return new ResponseEntity(new ResourceNotFoundException("Employee with BU " + BU + " not found"),
-					HttpStatus.NOT_FOUND);
+		new ResourceNotFoundException("Employee with BU " + BU + " not found");
 		}
 		return new ResponseEntity<>(tSal, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ApiOperation(value = "get total salary of given supervisor  ", response = BigDecimal.class, tags = "getTotalSalaryBySupervisor")
 	@GetMapping("/tSal/supervisor/{supervisor}")
 	public ResponseEntity<BigDecimal> getTotalSalaryBySupervisor(@PathVariable("supervisor") String supervisor) {
@@ -136,14 +122,11 @@ public class EmployeeController {
 		logger.info("inside getTotalSalaryBySupervisor ");
 		BigDecimal tSal = service.findTotalSalaryBySup(supervisor);
 		if (tSal == null) {
-			return new ResponseEntity(
-					new ResourceNotFoundException("Employee with supervisor " + supervisor + " not found"),
-					HttpStatus.NOT_FOUND);
+					new ResourceNotFoundException("Employee with supervisor " + supervisor + " not found");
 		}
 		return new ResponseEntity<>(tSal, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ApiOperation(value = "get total salary of given place  ", response = BigDecimal.class, tags = "getTotalSalaryByPlace")
 	@GetMapping("/tSal/place/{place}")
 	public ResponseEntity<BigDecimal> getTotalSalaryByPlace(@PathVariable("place") String place) {
@@ -151,13 +134,11 @@ public class EmployeeController {
 		logger.info("inside getTotalSalaryByPlace ");
 		BigDecimal tSal = service.findTotalSalaryByPlace(place);
 		if (tSal == null) {
-			return new ResponseEntity(new ResourceNotFoundException("Employee with place " + place + " not found"),
-					HttpStatus.NOT_FOUND);
+			new ResourceNotFoundException("Employee with place " + place + " not found");
 		}
 		return new ResponseEntity<>(tSal, HttpStatus.OK);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@ApiOperation(value = "get salary range of given place  ", response = Iterable.class, tags = "getSalaryRangeByPlace")
 	@GetMapping("/sal/range/place/{place}")
 	public ResponseEntity<List<String>> getSalaryRangeByPlace(@PathVariable("place") String place) {
@@ -166,8 +147,7 @@ public class EmployeeController {
 
 		List<Object[]> salRan = service.findSalaryRangeByPlace(place);
 		if (salRan == null) {
-			return new ResponseEntity(new ResourceNotFoundException("Employee with place " + place + " not found"),
-					HttpStatus.NOT_FOUND);
+			new ResourceNotFoundException("Employee with place " + place + " not found");
 		}
 
 		List<String> salR = new ArrayList<String>();

@@ -25,7 +25,7 @@ import com.example.service.EmployeeService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = EmployeeController.class)
-class DemoApplicationTests {
+class EmployeeControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -132,7 +132,7 @@ class DemoApplicationTests {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		System.out.println(result.getResponse());
 		String expected = "[{empID:152388,empName:Punyasloka,title:Java Developer,bunit:BFS,place:Bangalore,sId:17625,competencies:Java,salary:30000},"
-				+ "{empID:152382,empName:suraj,title:Automation Developer,bunit:Retail,place:Bangalore,sId:17625,competencies:Automation,salary:30000}";
+				+ "{empID:152382,empName:suraj,title:Automation Developer,bunit:Retail,place:Bangalore,sId:17625,competencies:Automation,salary:30000}]";
 				
 
 		JSONAssert.assertEquals(expected, result.getResponse()
