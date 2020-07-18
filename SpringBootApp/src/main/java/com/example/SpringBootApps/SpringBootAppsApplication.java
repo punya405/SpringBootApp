@@ -19,8 +19,8 @@ import com.example.controller.EmployeeController;
 public class SpringBootAppsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootAppsApplication.class, args);
 		System.out.println("hello");
+		SpringApplication.run(SpringBootAppsApplication.class, args);
 	}
 
 }
